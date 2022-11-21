@@ -1,6 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Note: If your Prisma schema has the @default flag on an item, you don't need to include it with the data -- because it will automatically include it with whatever you passed into the flag.
+
 generator client {
   provider = "prisma-client-js"
 }

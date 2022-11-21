@@ -1,5 +1,15 @@
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const comparePasswords = (password, hash) => {
+	return bcrypt.compare(password, hash);
+};
+
+const hashPassword = (password) => {
+	return bcrypt.hash(password, 5);
+};
+
+// Create a JWT -- This is a token that's encrypted with the data you pass into it. In this case, the user ID and username. This token is sent back to the client to be stored in a cookie/storage for authentication.
 const createJWT = (user) => {
 	const token = jwt.sign(
 		{
@@ -40,4 +50,4 @@ const protect = (req, res, next) => {
 	}
 };
 
-export { createJWT, protect };
+export { comparePasswords, hashPassword, createJWT, protect };

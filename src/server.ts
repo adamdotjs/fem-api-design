@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
+import { createNewUser, signIn } from "./handlers/user";
 import { protect } from "./modules/auth";
 import { router } from "./router";
 const app = express();
@@ -15,5 +16,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", protect, router);
+
+app.post("/user", createNewUser);
+app.post("/signin", signIn);
 
 export { app };
