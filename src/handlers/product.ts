@@ -6,7 +6,7 @@ import { prisma } from "../db";
 const getProducts = async (req, res) => {
 	const user = await prisma.user.findUnique({
 		where: {
-			username: req.body.username,
+			id: req.user.id,
 		},
 		include: {
 			products: true,
@@ -16,7 +16,6 @@ const getProducts = async (req, res) => {
 	res.json({ data: user.products });
 };
 
-// Get a single product
 const getProduct = async (req, res) => {
 	const product = await prisma.product.findFirst({
 		where: {
@@ -28,4 +27,44 @@ const getProduct = async (req, res) => {
 	res.json({ data: product });
 };
 
-export { getProducts, getProduct };
+const createProduct = async (req, res) => {
+	const product = await prisma.product.create({
+		data: {
+			name: req.body.name,
+			belongsToId: req.user.id,
+		},
+	});
+
+	res.json({ data: product });
+};
+
+const updateProduct = async (req, res) => {
+	const product = await prisma.product.update({
+		where: {
+			id_belongsToId: {
+				id: req.params.id,
+				belongsToId: req.user.id,
+			},
+		},
+		data: {
+			name: req.body.name,
+		},
+	});
+
+	res.json({ data: product });
+};
+
+const deleteProduct = async (req, res) => {
+	const product = await prisma.product.delete({
+		where: {
+			id_belongsToId: {
+				id: req.params.id,
+				belongsToId: req.user.id,
+			},
+		},
+	});
+
+	res.json({ data: product });
+};
+
+export { getProducts, getProduct, createProduct, updateProduct, deleteProduct };
